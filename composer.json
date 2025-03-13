@@ -1,0 +1,30 @@
+{
+    "name": "alpha1130/open-admin-qcs-upload",
+    "description": "description...",
+    "type": "library",
+    "keywords": ["open-admin", "extension", "qcs", "upload"],
+    "homepage": "https://github.com/alpha1130/open-admin-qcs-upload",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "alpha1130",
+            "email": "alpha1130@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "open-admin-org/open-admin": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alpha1130\\OpenAdminQcsUpload\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alpha1130\\OpenAdminQcsUpload\\OpenAdminQcsUploadServiceProvider"
+            ]
+        }
+    }
+}
