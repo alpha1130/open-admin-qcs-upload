@@ -1,21 +1,49 @@
 class QcsUpload {
     constructor(selector, config) {
         this.input = document.querySelector(`.qcs-upload-${selector}`);
-        this.image = document.querySelector(`.qcs-upload-image-${selector}`);
+        this.button_upload = document.querySelector(`.qcs-upload-button-upload-${selector}`);
+        this.button_delete = document.querySelector(`.qcs-upload-button-delete-${selector}`);
+        this.preview = document.querySelector(`.qcs-upload-preview-${selector}`);
         this.config = config;
         this.init();
     }
 
     init() {
         if(this.input.value != '') {
-            this.image.setAttribute('src', this.input.value);
+            this.preview.setAttribute('src', this.input.value);
+            this.preview.style.display = 'block';
+            this.button_delete.style.display = 'inline-block';
+        } else {
+            this.preview.removeAttribute('src');
+            this.preview.style.display = 'none';
+            this.button_delete.style.display = 'none';
         }
+
+        this.preview.addEventListener('click', (e) => {
+            e.stopPropagation();
+            return;
+        })
+
+        this.button_delete.addEventListener('click', () => {
+            this.preview.style.display = 'none';
+            this.preview.removeAttribute('src');
+            this.button_delete.style.display = 'none';
+            this.input.value = '';
+        })
 
         this.fileInput = document.createElement('input');
         this.fileInput.type = 'file';
-        this.fileInput.accept = 'image/*';
+        this.fileInput.accept = this.input.getAttribute('accept');
         this.fileInput.style.display = 'none';
-        this.fileInput.addEventListener('change', (e) => {
+        this.fileInput.addEventListener('change', () => {
+            const files = this.fileInput.files;
+
+            if (!files || !files.length) {
+                return;
+            }
+
+            const suffix = files[0].name.match(/[A-Za-z0-9]+$/)[0];
+            
             (new COS({
                 SecretId: this.config.credentials.tmpSecretId,
                 SecretKey: this.config.credentials.tmpSecretKey,
@@ -25,24 +53,30 @@ class QcsUpload {
             })).uploadFile({
                 Bucket: this.config.bucket,
                 Region: this.config.region,
-                Key: this.config.keyPrefix + files[0].name,
+                Key: this.config.keyPrefix + uuidv4() + '.' + suffix,
                 Body: files[0],
                 onProgress: (progressData) => {
                     NProgress.set(progressData.percent)
                 }
             }, (err, data) => {
-                NProgress.done()
                 if (err) {
                     console.log(err);
                 } else {
-                    this.image.setAttribute('src', '//' + data.Location)
+                    const url = '//' + data.Location;
+                    this.preview.setAttribute('src', url);
+                    this.preview.style.display = 'block';
+                    this.button_delete.style.display = 'inline-block';
+                    this.input.value = url;
                 }
+
+                NProgress.done()
                 this.fileInput.value = '';
             })
         })
 
-        this.image.addEventListener('click', () => {
+        this.button_upload.addEventListener('click', () => {
             this.fileInput.click();
         })
     }
+
 }
