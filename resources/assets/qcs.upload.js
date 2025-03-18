@@ -1,9 +1,13 @@
 class QcsUpload {
-    constructor(selector, config) {
-        this.input = document.querySelector(`.qcs-upload-${selector}`);
-        this.button_upload = document.querySelector(`.qcs-upload-button-upload-${selector}`);
-        this.button_delete = document.querySelector(`.qcs-upload-button-delete-${selector}`);
-        this.preview = document.querySelector(`.qcs-upload-preview-${selector}`);
+    constructor(selector, index, config) {
+        if(index !== undefined) {
+            selector = selector.replace('__LA_KEY__', index);
+        }
+        this.input = document.querySelector(`[name="${selector}"]`);
+        const parent = this.input.parentElement;
+        this.button_upload = parent.querySelector(`.qcs-upload-button-upload`);
+        this.button_delete = parent.querySelector(`.qcs-upload-button-delete`);
+        this.preview = parent.querySelector(`.qcs-upload-preview`);
         this.config = config;
         this.init();
     }
