@@ -26,7 +26,7 @@ class OpenAdminQcsUploadField extends Field
 
         $name = $this->elementName ?: $this->formatName($this->column);
         $config = json_encode(OpenAdminQcsUploadHelper::buildQCSTempKeys($this->variables['config']));
-        $this->script = "new QcsUpload('{$name}', index, {$config});";
+        $this->script = "new QcsUpload('{$name}', typeof index !== 'undefined' ? index : null, {$config});";
 
         return parent::render();
     }
