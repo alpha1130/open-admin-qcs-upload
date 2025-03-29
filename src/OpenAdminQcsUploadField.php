@@ -20,11 +20,13 @@ class OpenAdminQcsUploadField extends Field
 
     public function render()
     {
-        $config = OpenAdminQcsUploadHelper::buildQCSTempKeys(config('qcsupload'));
-        $json = json_encode($config);
-        $name = $this->elementName ?: $this->formatName($this->column);
+        if(!isset($this->variables['config'])){
+            throw new \Exception('qcs upload config is required');
+        }
 
-        $this->script = "new QcsUpload('{$name}', index, {$json});";
+        $name = $this->elementName ?: $this->formatName($this->column);
+        $config = json_encode(OpenAdminQcsUploadHelper::buildQCSTempKeys($this->variables['config']));
+        $this->script = "new QcsUpload('{$name}', index, {$config});";
 
         return parent::render();
     }

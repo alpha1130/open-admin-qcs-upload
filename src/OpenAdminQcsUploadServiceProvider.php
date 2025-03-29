@@ -24,7 +24,6 @@ class OpenAdminQcsUploadServiceProvider extends ServiceProvider
             $this->publishes(
                 [
                     $assets => public_path('vendor/alpha1130/open-admin-qcs-upload'),
-                    __DIR__ . '/../config/qcsupload.php' => config_path('qcsupload.php'),
                 ],
                 'open-admin-qcs-upload'
             );

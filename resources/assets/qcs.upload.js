@@ -7,37 +7,24 @@ class QcsUpload {
         const parent = this.input.parentElement;
         this.button_upload = parent.querySelector(`.qcs-upload-button-upload`);
         this.button_delete = parent.querySelector(`.qcs-upload-button-delete`);
-        this.preview = parent.querySelector(`.qcs-upload-preview`);
         this.config = config;
         this.init();
     }
 
     init() {
         if(this.input.value != '') {
-            this.preview.setAttribute('src', this.input.value);
-            this.preview.style.display = 'block';
-            this.button_delete.style.display = 'inline-block';
+            this.display(this.input.value);
         } else {
-            this.preview.removeAttribute('src');
-            this.preview.style.display = 'none';
-            this.button_delete.style.display = 'none';
+            this.remove();
         }
 
-        this.preview.addEventListener('click', (e) => {
-            e.stopPropagation();
-            return;
-        })
-
         this.button_delete.addEventListener('click', () => {
-            this.preview.style.display = 'none';
-            this.preview.removeAttribute('src');
-            this.button_delete.style.display = 'none';
-            this.input.value = '';
+            this.remove();
         })
 
         this.fileInput = document.createElement('input');
         this.fileInput.type = 'file';
-        this.fileInput.accept = this.input.getAttribute('accept');
+        this.fileInput.accept = this.button_upload.getAttribute('accept');
         this.fileInput.style.display = 'none';
         this.fileInput.addEventListener('change', () => {
             const files = this.fileInput.files;
@@ -66,11 +53,13 @@ class QcsUpload {
                 if (err) {
                     console.log(err);
                 } else {
-                    const url = '//' + data.Location;
-                    this.preview.setAttribute('src', url);
-                    this.preview.style.display = 'block';
-                    this.button_delete.style.display = 'inline-block';
-                    this.input.value = url;
+                    console.log(data);
+                    const url = '//' + (
+                        this.config.publisDomain 
+                        ? data.Location.replace(/^[^\/]+/, this.config.publisDomain) 
+                        : data.Location);
+
+                    this.display(url);
                 }
 
                 NProgress.done()
@@ -81,6 +70,20 @@ class QcsUpload {
         this.button_upload.addEventListener('click', () => {
             this.fileInput.click();
         })
+    }
+
+    display(url) {
+        this.button_upload.style.backgroundImage = `url(${url})`;
+        this.button_upload.style.backgroundSize = 'contain';
+        this.button_delete.style.display = 'inline-block';
+        this.input.value = url;
+    }
+
+    remove() {
+        this.button_upload.style.backgroundImage = '';
+        this.button_upload.style.backgroundSize = '50px';
+        this.button_delete.style.display = 'none';
+        this.input.value = '';
     }
 
 }
