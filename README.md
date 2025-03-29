@@ -16,7 +16,7 @@ $config = [
     'bucket' => env('QCLOUD_COS_BUCKET', ''),
     'region' => env('QCLOUD_COS_REGION', 'ap-guangzhou'),
     'durationSeconds' => 6000,
-    'publisDomain' => '',
+    'publishDomain' => '',
     'allowPrefix' => ['*'],
     'keyPrefix' => '',
 ];

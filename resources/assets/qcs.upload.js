@@ -56,8 +56,8 @@ class QcsUpload {
                 } else {
                     console.log(data);
                     const url = '//' + (
-                        this.config.publisDomain 
-                        ? data.Location.replace(/^[^\/]+/, this.config.publisDomain) 
+                        this.config.publishDomain 
+                        ? data.Location.replace(/^[^\/]+/, this.config.publishDomain) 
                         : data.Location);
 
                     this.display(url);
