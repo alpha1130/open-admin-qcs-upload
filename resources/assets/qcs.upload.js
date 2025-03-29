@@ -7,6 +7,7 @@ class QcsUpload {
         const parent = this.input.parentElement;
         this.button_upload = parent.querySelector(`.qcs-upload-button-upload`);
         this.button_delete = parent.querySelector(`.qcs-upload-button-delete`);
+        this.button_view = parent.querySelector(`.qcs-upload-button-view`);
         this.config = config;
         this.init();
     }
@@ -76,6 +77,8 @@ class QcsUpload {
         this.button_upload.style.backgroundImage = `url(${url})`;
         this.button_upload.style.backgroundSize = 'contain';
         this.button_delete.style.display = 'inline-block';
+        this.button_view.style.display = 'inline-block';
+        this.button_view.setAttribute('href', url);
         this.input.value = url;
     }
 
@@ -83,6 +86,8 @@ class QcsUpload {
         this.button_upload.style.backgroundImage = '';
         this.button_upload.style.backgroundSize = '50px';
         this.button_delete.style.display = 'none';
+        this.button_view.style.display = 'none';
+        this.button_view.setAttribute('href', '#');
         this.input.value = '';
     }
 

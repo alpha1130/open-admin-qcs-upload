@@ -7,9 +7,9 @@
             type="hidden" 
             value="{{old($column, $value)}}"
             >
-        <div class="qcs-upload-button-upload" {!! $attributes !!}>
-        </div>
+        <div class="qcs-upload-button-upload" {!! $attributes !!} ></div>
         @include('admin::form.help-block')
         <a class="qcs-upload-button-delete">删除</a>
+        <a class="qcs-upload-button-view" target="_blank">查看</a>
     </div>
 </div>
