@@ -8,6 +8,8 @@ class QcsUpload {
         this.button_upload = parent.querySelector(`.qcs-upload-button-upload`);
         this.button_delete = parent.querySelector(`.qcs-upload-button-delete`);
         this.button_view = parent.querySelector(`.qcs-upload-button-view`);
+        this.type = this.button_upload.getAttribute('type');
+
         this.config = config;
         this.init();
     }
@@ -74,8 +76,19 @@ class QcsUpload {
     }
 
     display(url) {
-        this.button_upload.style.backgroundImage = `url(${url})`;
-        this.button_upload.style.backgroundSize = 'contain';
+        if(this.type == 'video') {
+            const v = document.createElement('video');
+            v.setAttribute('width', '100%');
+            v.setAttribute('controls', 'controls');
+            const s = document.createElement('source');
+            s.src = url;
+            v.appendChild(s);
+            this.button_upload.appendChild(v);
+        } else {
+            this.button_upload.style.backgroundImage = `url(${url})`;
+            this.button_upload.style.backgroundSize = 'contain';
+        }
+        
         this.button_delete.style.display = 'inline-block';
         this.button_view.style.display = 'inline-block';
         this.button_view.setAttribute('href', url);
@@ -83,8 +96,12 @@ class QcsUpload {
     }
 
     remove() {
-        this.button_upload.style.backgroundImage = '';
-        this.button_upload.style.backgroundSize = '50px';
+        if(this.type == 'video') {
+            this.button_upload.innerHTML = '';
+        } else {
+            this.button_upload.style.backgroundImage = '';
+            this.button_upload.style.backgroundSize = '50px';
+        }
         this.button_delete.style.display = 'none';
         this.button_view.style.display = 'none';
         this.button_view.setAttribute('href', '#');
