@@ -77,6 +77,7 @@ class QcsUpload {
 
     display(url) {
         if(this.type == 'video') {
+            this.button_upload.innerHTML = '';
             const v = document.createElement('video');
             v.setAttribute('width', '100%');
             v.setAttribute('controls', 'controls');
