@@ -13,8 +13,8 @@ class OpenAdminQcsUploadField extends Field
     ];
 
     protected static $js = [
-        '//cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js',
-        '//cdn.jsdelivr.net/npm/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js',
+        '//fastly.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js',
+        '//fastly.jsdelivr.net/npm/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js',
         '/vendor/alpha1130/open-admin-qcs-upload/qcs.upload.js',
     ];
 
